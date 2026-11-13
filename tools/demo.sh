@@ -58,7 +58,7 @@ execute() {
             printf '%s\n' '$ printf "1\\n2\\n3\\n4\\n5\\n" | sh src/ex3-5.sh'
             set +e; printf '1\n2\n3\n4\n5\n' | sh src/ex3-5.sh > "$run_dir/ex3-5.log" 2>&1; result=$?; set -e
             printf '%s\n' '(실제 출력 중 사용자, CPU, 메모리, 디스크 정보)'
-            grep -E 'uid=|Cpu\(s\):|total|^Mem:|^Swap:|^Filesystem|^/|프로그램을 종료합니다' "$run_dir/ex3-5.log" || :
+            sed '/^[1-5]) /d; /^$/d' "$run_dir/ex3-5.log"
             printf '\n%s\n' '$ sh src/ex3-5.sh -l src/ex3-1.sh'
             set +e; sh src/ex3-5.sh -l src/ex3-1.sh; result2=$?; set -e
             if [ "$result2" -ne 0 ]; then result=$result2; fi
