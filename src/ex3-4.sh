@@ -35,14 +35,18 @@ while :; do
                 { sum += $2 }
                 END {
                     average = sum / NR
-                    if (average >= 90) { grade = "A"; gpa = 4.0 }
-                    else if (average >= 80) { grade = "B"; gpa = 3.0 }
-                    else if (average >= 70) { grade = "C"; gpa = 2.0 }
-                    else if (average >= 60) { grade = "D"; gpa = 1.0 }
+                    if (average >= 95) { grade = "A+"; gpa = 4.5 }
+                    else if (average >= 90) { grade = "A0"; gpa = 4.0 }
+                    else if (average >= 85) { grade = "B+"; gpa = 3.5 }
+                    else if (average >= 80) { grade = "B0"; gpa = 3.0 }
+                    else if (average >= 75) { grade = "C+"; gpa = 2.5 }
+                    else if (average >= 70) { grade = "C0"; gpa = 2.0 }
+                    else if (average >= 65) { grade = "D+"; gpa = 1.5 }
+                    else if (average >= 60) { grade = "D0"; gpa = 1.0 }
                     else { grade = "F"; gpa = 0.0 }
-                    print "주의: 교수님 기준이 없어 평균 점수에 예시 4.0 만점 기준을 적용했습니다."
-                    print "예시: 90 이상 A(4.0), 80 이상 B(3.0), 70 이상 C(2.0), 60 이상 D(1.0), 그 외 F(0.0)"
-                    printf "평균 점수: %.2f점, 등급: %s, 예시 GPA: %.1f / 4.0\n", average, grade, gpa
+                    print "안내: GPA 환산 기준이 지정되지 않아 4.5 만점 예시 기준을 적용했습니다."
+                    print "예시: 95 A+(4.5), 90 A0(4.0), 85 B+(3.5), 80 B0(3.0), 75 C+(2.5), 70 C0(2.0), 65 D+(1.5), 60 D0(1.0), 그 외 F(0.0)"
+                    printf "평균 점수: %.2f점, 평균 등급: %s, GPA: %.1f / 4.5\n", average, grade, gpa
                 }
             ' "$score_file"
             ;;
