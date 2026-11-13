@@ -7,7 +7,7 @@ ln -s "$repo/src" "$scratch/src"
 cd "$scratch"
 run_dir="$scratch/logs"
 mkdir "$run_dir"
-wait_seconds=${EX3_CAPTURE_DELAY:-20}
+wait_seconds=${EX3_CAPTURE_DELAY:-30}
 case "$wait_seconds" in ''|*[!0-9]*) printf '%s\n' 'EX3_CAPTURE_DELAY는 초 단위 정수여야 합니다.' >&2; exit 1 ;; esac
 
 show_and_wait() {
@@ -82,6 +82,7 @@ execute() {
             cat "$run_dir/ex3-8.log"
             ;;
         9)
+            if [ ! -f DB.txt ]; then sh src/ex3-8.sh Alice 2001-01-01 > /dev/null; fi
             printf '%s\n' '$ sh src/ex3-9.sh Alice' '$ sh src/ex3-9.sh Nobody'
             set +e
             { sh src/ex3-9.sh Alice && sh src/ex3-9.sh Nobody; } > "$run_dir/ex3-9.log" 2>&1
@@ -93,6 +94,9 @@ execute() {
     show_and_wait "$number" "$result"
 }
 
-for number in 0 1 2 3 4 5 6 7 8 9; do execute "$number"; done
-printf '\n%s\n' '열 문제의 실습을 완료했습니다.'
+if [ "$#" -eq 0 ]; then set -- 0 1 2 3 4 5 6 7 8 9; fi
+for number do
+    case "$number" in [0-9]) execute "$number" ;; *) printf '잘못된 문제 번호: %s\n' "$number" >&2; exit 1 ;; esac
+done
+printf '\n%s\n' '선택한 실습을 완료했습니다.'
 printf '전체 실행 기록: %s\n' "$run_dir"
